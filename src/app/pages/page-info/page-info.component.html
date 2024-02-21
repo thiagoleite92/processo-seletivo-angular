@@ -1,0 +1,69 @@
+<form [formGroup]="form" (ngSubmit)="formSubmit()" class="m-5 mb-12">
+    
+    <div class="row">
+
+        <h5 class="divider pb-2">Informações gerais</h5>
+
+        <div class="form-group col-md-12">
+            <label for="name">Nome da clínica *</label>
+            <input type="text" formControlName="name" class="form-control" id="name" placeholder="Nome da clínica">
+        </div>
+        
+        <div class="form-group col-md-12">
+            <label for="ownerName">Nome do responsável *</label>
+            <input type="text" formControlName="ownerName" class="form-control" id="ownerName" placeholder="Nome do responsável">
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="inputPhone">Telefone *</label>
+            <input type="text" formControlName="phone" mask="(00) 0000-0000||(00) 0 0000-0000" class="form-control" id="inputPhone" placeholder="(XX) X XXXX-XXXX">
+        </div>
+
+    </div>
+
+    <div class="row mt-4">
+
+        <h5 class="divider pb-2">Endereço</h5>
+
+        <div class="form-group col-md-4">
+            <label for="inputCep">CEP</label>
+            <input type="text" class="form-control" id="inputCep" placeholder="XXXXX-XXX">
+        </div>
+    
+        <div class="form-group col-md-2">
+            <label for="inputUF">UF</label>
+            <input type="text" class="form-control" id="inputUF" placeholder="UF">
+        </div>
+    
+        <div class="form-group col-md-6">
+            <label for="inputCity">Cidade</label>
+            <input type="text" class="form-control" id="inputCity" placeholder="Cidade">
+        </div>
+    
+        <div class="form-group col-md-12">
+            <label for="inputNeighborhood">Bairro</label>
+            <input type="text" class="form-control" id="inputNeighborhood" placeholder="Bairro da cidade">
+        </div>
+    
+        <div class="form-group col-md-12">
+            <label for="inputStreet">Logradouro</label>
+            <input type="text" class="form-control" id="inputStreet" placeholder="Rua, Av. da cidade">
+        </div>
+    
+        <div class="form-group col-md-4">
+            <label for="inputNumber">Número</label>
+            <input type="text" class="form-control" id="inputNumber" placeholder="Número do endereço">
+        </div>
+    
+        <div class="form-group col-md-8">
+            <label for="inputComplement">Complemento</label>
+            <input type="text" class="form-control" id="inputComplement" placeholder="Ex: Bloco C">
+        </div>
+
+    </div>
+    
+    <div class="form-row mt-4">
+        <button type="submit" class="btn btn-primary">{{ buttonLabel }}</button>
+    </div>
+
+</form>

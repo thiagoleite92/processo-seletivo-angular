@@ -1,27 +1,44 @@
-# ProcessoSeletivoClin
+# Processo Seletivo Clin - Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.0.
+## Descrição
 
-## Development server
+Este projeto foi desenvolvido como parte do processo seletivo para avaliação de habilidades em Angular. O foco principal da aplicação é proporcionar funcionalidades essenciais de gerenciamento de clínicas, incluindo autenticação, listagem, leitura, atualização e exclusão de registros.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Como Executar o Projeto
+Clone este repositório em seu ambiente local.
 
-## Code scaffolding
+Instale as dependências utilizando o comando `npm install`.
+Execute o projeto com `ng serve`.
+Acesse a aplicação através do navegador no endereço http://localhost:4200.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Funcionalidade principal
 
-## Build
+### C.R.U.D. de Clínicas
+A aplicação deve permitir a execução de operações CRUD (Criar, Ler, Atualizar, Excluir) em registros de clínicas. 
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Utilizando a estrutura do Angular, é possível facilmente adicionar novas clínicas, visualizar informações detalhadas, atualizar dados existentes e remover registros.
 
-## Running unit tests
+## O que esperamos
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- [ ] Integração do projeto com Backend (efetuar processamentos que reflitam em um banco de dados a sua escolha);
+- [ ] Efetuar sistema de Auth Guard, permitindo que apenas usuários logados possam acessar páginas restritas;
+- [ ] Possibilidade de editar / excluir / criar e listar clínicas;
 
-## Running end-to-end tests
+## Diferenciais Frontend
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- [ ] Sistema responsivo (visualização em Desktop e Mobile)
+- [ ] Integração com sistemas terceiros (ViaCep e Google Maps, por exemplo)
+- [ ] Validação dos formulários
+- [ ] Paginação dos itens (lazy loading applications)
+- [ ] Muita criatividade na hora de codar
 
-## Further help
+## Conclusão
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Procuramos alguém acima de tudo, capaz de 
+solucionar problemas da forma mais criativa possível. Trazendo muita dinamicidade para o desenvolvimento.
+
+Então, aproveite cada linha de código, celebre suas conquistas e não hesite em experimentar algo novo para deixar o processo ainda mais interessante. 
+
+E, claro, se divirta muito! Afinal, o aprendizado é uma jornada empolgante e, quem sabe, até mesmo um pouco divertida.
+
+Te aguardamos na próxima etapa, Boa sorte 🚀😊
