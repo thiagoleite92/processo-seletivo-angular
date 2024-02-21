@@ -40,6 +40,20 @@ export class PageListComponent implements OnInit {
       street: 'Rua do Espinheiro',
       number: '160',
       complement: 'Ao lado esquerdo, placa da Clin'
+    },
+    {
+      id: 4,
+      name: 'Clinca exemplo C',
+      phone: '819948301',
+      ownerName: 'Antonio',
+      cep: '52020200',
+      uf: 'PE',
+      city: 'Recife',
+
+      neighborhood: 'Espinheiro',
+      street: 'Rua do Espinheiro',
+      number: '160',
+      complement: 'Ao lado esquerdo, placa da Clin'
     }
   ]
 
@@ -60,9 +74,17 @@ export class PageListComponent implements OnInit {
     });
   }
 
+  redirectNewClinc(){
+    this.route.navigate([RoutesEnum.SESSION_NEW_CLINC]);
+  }
+
   edit(clincId: any){
     console.log(`Id da clínica: ${clincId}`);
     this.route.navigate([`${RoutesEnum.SESSION_CLINC_INFO}/${clincId}`])
+  }
+
+  delete(clincId: any){
+    console.log(`Id da clínica: ${clincId} para deletar`);
   }
 
 }

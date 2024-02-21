@@ -12,7 +12,7 @@ export class ClincService {
 
   // TODO: Mapear DTOs para retorno do Backend
   getAllClincs(): Observable<any[]> {
-    return this.http.get<any>(`${environment.API_URL}/clincs`).pipe((retry(1)));
+    return this.http.get<any>(`${environment.API_URL}/clinc`).pipe((retry(1)));
   }
 
 }

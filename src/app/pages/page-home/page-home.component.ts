@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RoutesEnum } from 'src/app/enums/routes.enum';
+import { AuthService } from 'src/app/services/auth.service';
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
@@ -11,7 +12,11 @@ import { ToastService } from 'src/app/services/toast.service';
 })
 export class PageHomeComponent {
 
-  constructor(private toastService: ToastService, private route: Router){}
+  constructor(
+    private route: Router, 
+    private authService: AuthService,
+    private toastService: ToastService,
+  ){}
 
   form: FormGroup = new FormGroup({
     identifier: new FormControl('', [Validators.required]),
@@ -19,15 +24,20 @@ export class PageHomeComponent {
   });
 
   login() {
-    this.route.navigate([RoutesEnum.SESSION_LIST]);
-  }
 
-  teste() {
-    this.toastService.showError('Erro');
-  }
+    const { identifier: cpf, password } = this.form.value;
 
-  openToEdit(id: number) {
-    console.log(`ID: ${id}`);
+    this.authService.login(cpf, password)
+    .subscribe({
+      next: (value: any) => {
+        console.log(value);
+
+        this.route.navigate([RoutesEnum.SESSION_LIST]);
+      },
+      error: (err: any) => {
+        this.toastService.showError(err?.error?.message);
+      },
+    });
   }
 
 }

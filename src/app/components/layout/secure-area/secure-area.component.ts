@@ -10,7 +10,7 @@ export class SecureAreaComponent implements OnInit {
   loggedUser = 'Usuário logado';
 
   logout(){
-    console.log(`Loggou!`);
+    console.log(`Deslogou!`);
   }
 
   ngOnInit() {}

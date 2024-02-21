@@ -4,7 +4,9 @@
         <h6 class="card-subtitle mb-2 text-muted">{{ subtitle }}</h6>
         <p class="card-text">{{ info }}</p>
 
-        <button *ngIf="leftButtonLabel" (click)="onClickLeftButton.emit()" [disabled]="leftButtonDisabled" type="submit" class="btn btn-primary mt-3">{{ leftButtonLabel }}</button>
-        <button *ngIf="rightButtonLabel" (click)="onClickRightButton.emit()" [disabled]="rightButtonDisabled" type="submit" class="btn btn-primary mt-3">{{ rightButtonLabel }}</button>
+        <div class="col d-flex justify-content-between">
+            <button *ngIf="leftButtonLabel" (click)="onClickLeftButton.emit()" [disabled]="leftButtonDisabled" type="submit" class="btn btn-danger mt-3">{{ leftButtonLabel }}</button>
+            <button *ngIf="rightButtonLabel" (click)="onClickRightButton.emit()" [disabled]="rightButtonDisabled" type="submit" class="btn btn-primary mt-3">{{ rightButtonLabel }}</button>
+        </div>
     </div>
 </div>
