@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ClincDTO } from 'src/app/dtos/clinc.dto';
+import { ClinicDTO } from 'src/app/dtos/clinic.dto';
 
 @Component({
   selector: 'app-page-info',
   templateUrl: './page-info.component.html',
-  styleUrls: ['./page-info.component.scss']
+  styleUrls: ['./page-info.component.scss'],
 })
 export class PageInfoComponent implements OnInit {
-
   clinicId: number | null = null;
   buttonLabel: string = 'Cadastrar';
 
@@ -20,26 +19,30 @@ export class PageInfoComponent implements OnInit {
     phone: new FormControl('', [Validators.required]),
 
     cep: new FormControl('', [Validators.required]),
-    uf: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]),
+    uf: new FormControl('', [
+      Validators.required,
+      Validators.minLength(2),
+      Validators.maxLength(2),
+    ]),
     city: new FormControl('', [Validators.required]),
     neighborhood: new FormControl('', [Validators.required]),
     street: new FormControl('', [Validators.required]),
     number: new FormControl('', []),
-    complement: new FormControl('', [])
+    complement: new FormControl('', []),
   });
 
-  constructor(private activateRoute: ActivatedRoute){}
+  constructor(private activateRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
     const paramRaw = this.activateRoute.snapshot.paramMap.get('id');
-    
+
     this.clinicId = paramRaw ? parseInt(paramRaw) : null;
-    this.buttonLabel = (this.clinicId) ? 'Salvar' : 'Cadastrar';
+    this.buttonLabel = this.clinicId ? 'Salvar' : 'Cadastrar';
   }
 
-  formSubmit(){
-    let bodySubmit: ClincDTO = {
-      id: (this.clinicId) ?? undefined,
+  formSubmit() {
+    let bodySubmit: ClinicDTO = {
+      id: this.clinicId ?? undefined,
 
       name: this.form.get('name')?.value,
       ownerName: this.form.get('ownerName')?.value,
@@ -57,5 +60,4 @@ export class PageInfoComponent implements OnInit {
 
     console.log(`Informações da clínica para edição: ${bodySubmit.name}`);
   }
-
 }

@@ -13,7 +13,7 @@ import { CardsModule } from './components/cards/cards.module';
 import { LayoutModule } from './components/layout/layout.module';
 import { NgxMaskModule } from 'ngx-mask';
 import { HttpClientModule } from '@angular/common/http';
-import { InfoClincPipe } from './pipes/info-clinc.pipe';
+import { InfoClincPipe } from './pipes/info-clinic.pipe';
 
 @NgModule({
   declarations: [
@@ -40,6 +40,6 @@ import { InfoClincPipe } from './pipes/info-clinc.pipe';
     LayoutModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

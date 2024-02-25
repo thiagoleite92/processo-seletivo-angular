@@ -8,15 +8,14 @@ import { ToastService } from 'src/app/services/toast.service';
 @Component({
   selector: 'app-page-home',
   templateUrl: './page-home.component.html',
-  styleUrls: ['./page-home.component.scss']
+  styleUrls: ['./page-home.component.scss'],
 })
 export class PageHomeComponent {
-
   constructor(
-    private route: Router, 
+    private route: Router,
     private authService: AuthService,
-    private toastService: ToastService,
-  ){}
+    private toastService: ToastService
+  ) {}
 
   form: FormGroup = new FormGroup({
     identifier: new FormControl('', [Validators.required]),
@@ -24,13 +23,11 @@ export class PageHomeComponent {
   });
 
   login() {
-
     const { identifier: cpf, password } = this.form.value;
 
-    this.authService.login(cpf, password)
-    .subscribe({
+    this.authService.login(cpf, password).subscribe({
       next: (value: any) => {
-        console.log(value);
+        this.authService.setToken(value);
 
         this.route.navigate([RoutesEnum.SESSION_LIST]);
       },
@@ -39,5 +36,4 @@ export class PageHomeComponent {
       },
     });
   }
-
 }
