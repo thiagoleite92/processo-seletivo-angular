@@ -11,7 +11,6 @@ import { ClinicDTO } from '../dtos/clinic.dto';
 export class ClinicService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  // TODO: Mapear DTOs para retorno do Backend
   getAllClincs(): Observable<ClinicDTO[]> {
     return this.http
       .get<ClinicDTO[]>(`${environment.API_URL}/clinic`, {
@@ -25,6 +24,26 @@ export class ClinicService {
   createClinic(createClinicDTO: ClinicDTO): Observable<void> {
     return this.http
       .post<void>(`${environment.API_URL}/clinic`, createClinicDTO, {
+        headers: {
+          Authorization: `Bearer ${this.authService.getToken()} `,
+        },
+      })
+      .pipe(retry(1));
+  }
+
+  updateClinic(clinicId: number, updateClinicDTO: ClinicDTO): Observable<void> {
+    return this.http
+      .put<void>(`${environment.API_URL}/clinic/${clinicId}`, updateClinicDTO, {
+        headers: {
+          Authorization: `Bearer ${this.authService.getToken()} `,
+        },
+      })
+      .pipe(retry(1));
+  }
+
+  getClinicById(clinicId: number): Observable<ClinicDTO> {
+    return this.http
+      .get<ClinicDTO>(`${environment.API_URL}/clinic/${clinicId}`, {
         headers: {
           Authorization: `Bearer ${this.authService.getToken()} `,
         },

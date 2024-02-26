@@ -16,6 +16,7 @@ import { ClinicService } from 'src/app/services/clinic.service';
 })
 export class PageInfoComponent implements OnInit {
   showModal = false;
+  modalTitle = '';
   CEP_LENGTH = 8;
   states = ufs;
   clinicId: number | null = null;
@@ -82,6 +83,34 @@ export class PageInfoComponent implements OnInit {
 
     this.clinicId = paramRaw ? parseInt(paramRaw) : null;
     this.buttonLabel = this.clinicId ? 'Salvar' : 'Cadastrar';
+
+    if (this.clinicId) {
+      this.fetchClinicDetails(this.clinicId);
+    }
+  }
+
+  fetchClinicDetails(clinicId: number) {
+    this.clinicService.getClinicById(clinicId).subscribe({
+      next: (clinic) => {
+        this.form.controls['name'].setValue(clinic?.name);
+        this.form.controls['ownerName'].setValue(clinic?.ownerName);
+        this.form.controls['cnpj'].setValue(clinic?.cnpj);
+        this.form.controls['phone'].setValue(clinic?.phone);
+        this.form.controls['cep'].setValue(clinic?.address?.cep);
+        this.form.controls['uf'].setValue(clinic?.address?.uf?.toUpperCase());
+        this.form.controls['city'].setValue(clinic?.address?.city);
+        this.form.controls['neighborhood'].setValue(
+          clinic?.address?.neighborhood
+        );
+        this.form.controls['street'].setValue(clinic?.address?.street);
+        this.form.controls['number'].setValue(clinic?.address?.number);
+        this.form.controls['complement'].setValue(clinic?.address?.complement);
+      },
+      error: (value) => {
+        this.toastService.showError('Não foi possível buscar a clínica');
+        this.route.navigateByUrl('/session/list');
+      },
+    });
   }
 
   formSubmit() {
@@ -102,19 +131,34 @@ export class PageInfoComponent implements OnInit {
       },
     };
 
-    this.clinicService.createClinic(bodySubmit).subscribe({
-      next: (value: any) => {
-        this.showModal = true;
-        this.form.reset();
-        this.toastService.showSuccess('Clínica cadastrada');
-      },
-      error: (err: any) => {
-        this.toastService.showError(err?.error?.message);
-      },
-    });
+    if (bodySubmit?.id) {
+      this.clinicService.updateClinic(bodySubmit?.id, bodySubmit).subscribe({
+        next: (value: any) => {
+          this.modalTitle = 'Permanecer na página?';
+          this.showModal = true;
+
+          this.toastService.showSuccess('Clínica Atualizada');
+        },
+        error: (err: any) => {
+          this.toastService.showError(err?.error?.message);
+        },
+      });
+    } else {
+      this.clinicService.createClinic(bodySubmit).subscribe({
+        next: (value: any) => {
+          this.modalTitle = 'Deseja cadastrar outra Clínica?';
+          this.showModal = true;
+          this.form.reset();
+          this.toastService.showSuccess('Clínica cadastrada');
+        },
+        error: (err: any) => {
+          this.toastService.showError(err?.error?.message);
+        },
+      });
+    }
   }
 
-  fetchAddressByCep() {
+  fetchAddressByCep(cep?: string) {
     const cepNumber = this.form.get('cep')?.value;
 
     if (cepNumber?.length === this.CEP_LENGTH) {
@@ -190,5 +234,10 @@ export class PageInfoComponent implements OnInit {
 
   closeModalAndStay() {
     this.showModal = false;
+  }
+
+  backToList() {
+    this.form.reset();
+    this.route.navigateByUrl('/session/list');
   }
 }

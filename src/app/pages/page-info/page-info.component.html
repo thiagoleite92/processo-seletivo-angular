@@ -188,13 +188,18 @@
   </div>
 
   <div class="form-row mt-4">
-    <button type="submit" class="btn btn-primary" [disabled]="isFormValid()">
-      {{ buttonLabel }}
-    </button>
+    <div style="display: flex; justify-content: space-evenly">
+      <button type="button" class="btn btn-secondary" (click)="backToList()">
+        Cancelar
+      </button>
+      <button type="submit" class="btn btn-primary" [disabled]="isFormValid()">
+        {{ buttonLabel }}
+      </button>
+    </div>
   </div>
   <app-dialog *ngIf="showModal">
     <div class="dialog-content">
-      <h5>Deseja cadastrar outra clínica?</h5>
+      <h5>{{ modalTitle }}</h5>
 
       <div class="btn-container">
         <button

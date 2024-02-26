@@ -28,9 +28,10 @@ export class PageListComponent implements OnInit {
 
     this.clinicService.getAllClincs().subscribe({
       next: (value: any[]) => {
+        console.log(value);
         this.clinics = value?.map((clinic) => ({
           ...clinic,
-          ...clinic.address,
+          address: { ...clinic.address },
         }));
       },
       error: (err: any) => {
@@ -43,9 +44,9 @@ export class PageListComponent implements OnInit {
     this.route.navigate([RoutesEnum.SESSION_NEW_CLINC]);
   }
 
-  edit(clincId: any) {
-    console.log(`Id da clínica: ${clincId}`);
-    this.route.navigate([`${RoutesEnum.SESSION_CLINC_INFO}/${clincId}`]);
+  edit(clinicId: any) {
+    console.log(`Id da clínica: ${clinicId}`);
+    this.route.navigate([`${RoutesEnum.SESSION_CLINC_INFO}/${clinicId}`]);
   }
 
   delete(clincId: any) {
