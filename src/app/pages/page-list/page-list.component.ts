@@ -13,6 +13,8 @@ import { ToastService } from 'src/app/services/toast.service';
 })
 export class PageListComponent implements OnInit {
   clinics: ClinicDTO[] = [];
+  showModal = false;
+  clinicToDeletion = '';
 
   constructor(
     private clinicService: ClinicService,
@@ -45,11 +47,42 @@ export class PageListComponent implements OnInit {
   }
 
   edit(clinicId: any) {
-    console.log(`Id da clínica: ${clinicId}`);
     this.route.navigate([`${RoutesEnum.SESSION_CLINC_INFO}/${clinicId}`]);
   }
 
-  delete(clincId: any) {
-    console.log(`Id da clínica: ${clincId} para deletar`);
+  delete(clinicId: string) {
+    this.showModal = true;
+    this.clinicToDeletion = clinicId;
+  }
+
+  closeModalAndBackToList() {
+    this.showModal = false;
+    this.clinicToDeletion = '';
+  }
+
+  updateClinicList() {
+    const clinicDeletedIndex = this.clinics.findIndex(
+      (clinic) => clinic?.id === Number(this.clinicToDeletion)
+    );
+
+    if (clinicDeletedIndex >= 0) {
+      this.clinics.splice(clinicDeletedIndex, 1);
+    }
+  }
+
+  confirmClinicDeletion() {
+    this.clinicService.deleteClinicById(this.clinicToDeletion).subscribe({
+      next: () => {
+        this.updateClinicList();
+        this.showModal = false;
+        this.toastService.showSuccess('Clínica removida');
+      },
+      error: () => {
+        this.showModal = false;
+        this.toastService.showError(
+          'Ocorreu um erro. Tente novamente mais tarde'
+        );
+      },
+    });
   }
 }

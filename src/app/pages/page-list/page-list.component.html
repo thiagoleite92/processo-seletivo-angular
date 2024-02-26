@@ -13,9 +13,37 @@
       subtitle="Responsavel: {{ clinic.ownerName }}"
       [info]="clinic | clinicInfo"
       leftButtonLabel="Remover"
-      (onClickLeftButton)="delete(clinic?.id)"
+      (onClickLeftButton)="delete(clinic?.id?.toString()!)"
       rightButtonLabel="Editar clínica"
       (onClickRightButton)="edit(clinic?.id)"
     ></default-card>
   </div>
 </div>
+<app-dialog *ngIf="showModal">
+  <div class="dialog-content">
+    <h5>
+      <div style="display: flex; flex-direction: column; align-items: center">
+        <span> Deseja mesmo deletar essa Clínica? </span>
+        <span style="color: red">Essa ação não pode ser desfeita</span>
+      </div>
+    </h5>
+
+    <div class="btn-container">
+      <button
+        type="button"
+        (click)="closeModalAndBackToList()"
+        class="dialog-btn btn-cancel"
+      >
+        Não
+      </button>
+
+      <button
+        (click)="confirmClinicDeletion()"
+        class="dialog-btn btn-keep"
+        type="button"
+      >
+        Sim
+      </button>
+    </div>
+  </div></app-dialog
+>

@@ -50,4 +50,14 @@ export class ClinicService {
       })
       .pipe(retry(1));
   }
+
+  deleteClinicById(clinicId: string): Observable<void> {
+    return this.http
+      .delete<void>(`${environment.API_URL}/clinic/${clinicId}`, {
+        headers: {
+          Authorization: `Bearer ${this.authService.getToken()} `,
+        },
+      })
+      .pipe(retry(1));
+  }
 }
