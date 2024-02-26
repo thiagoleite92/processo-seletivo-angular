@@ -4,6 +4,8 @@ import { environment } from 'src/environments/environment.development';
 import { Observable, retry } from 'rxjs';
 import { AuthService } from './auth.service';
 import { ClinicDTO } from '../dtos/clinic.dto';
+import { FilterDTO } from '../dtos/filter.dto';
+import { FetchClinicsDTO } from '../dtos/fetch-clinic.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -11,13 +13,20 @@ import { ClinicDTO } from '../dtos/clinic.dto';
 export class ClinicService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  getAllClincs(): Observable<ClinicDTO[]> {
+  getAllClincs({
+    perPage,
+    page,
+    search,
+  }: FilterDTO): Observable<FetchClinicsDTO> {
     return this.http
-      .get<ClinicDTO[]>(`${environment.API_URL}/clinic`, {
-        headers: {
-          Authorization: `Bearer ${this.authService.getToken()} `,
-        },
-      })
+      .get<FetchClinicsDTO>(
+        `${environment.API_URL}/clinic?perPage=${perPage}&page=${page}&search=${search}`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.authService.getToken()} `,
+          },
+        }
+      )
       .pipe(retry(1));
   }
 

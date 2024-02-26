@@ -1,3 +1,48 @@
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto 0;
+
+  div {
+    margin: 0 12px;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+  }
+}
+
+.page-control {
+  margin: 30px auto 0;
+  padding-bottom: 15px;
+  display: flex;
+  width: 40%;
+  justify-content: space-between;
+  align-items: center;
+
+  .page-info-container {
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    color: #0d6efd;
+    width: 50%;
+    margin: 0 auto;
+  }
+}
+
+.total-itens {
+  display: flex;
+  font-size: 12px;
+  flex-direction: column;
+  color: #0d6efd;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
 .dialog-content {
   background-color: #fff;
   width: 400px;
@@ -57,6 +102,32 @@
     /* Estilo quando o botão é clicado */
     .dialog-btn:active {
       background-color: #3e8e41;
+    }
+  }
+}
+
+@media screen and (max-width: 992px) {
+  form {
+    div {
+      flex-direction: column;
+      width: 50%;
+      min-width: 280px;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  .page-control {
+    width: 80%;
+
+    .page-info-container {
+      font-size: 12px;
+
+      .page-info {
+        flex-direction: column;
+      }
     }
   }
 }
