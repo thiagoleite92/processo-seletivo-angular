@@ -18,8 +18,14 @@ export class PageHomeComponent {
   ) {}
 
   form: FormGroup = new FormGroup({
-    identifier: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required]),
+    identifier: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(11),
+    ]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(10),
+    ]),
   });
 
   login() {
@@ -35,5 +41,16 @@ export class PageHomeComponent {
         this.toastService.showError(err?.error?.message);
       },
     });
+  }
+
+  requiredErrorMessage(fieldName: string): boolean {
+    return (
+      this.form.controls[fieldName].touched &&
+      this.form.controls[fieldName].hasError('required')
+    );
+  }
+
+  isFormValid(): boolean {
+    return !this.form.valid;
   }
 }
