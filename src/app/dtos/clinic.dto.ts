@@ -3,6 +3,7 @@ export interface ClinicDTO {
 
   name: string;
   phone: string;
+  cnpj: string;
 
   ownerName: string;
 

@@ -6,6 +6,7 @@ import { AddressService } from 'src/app/services/address.service';
 import { ToastService } from 'src/app/services/toast.service';
 
 import { ufs } from '../../const/states';
+import { CustomValidators } from 'src/app/utils/CustomValidators';
 
 @Component({
   selector: 'app-page-info',
@@ -21,9 +22,25 @@ export class PageInfoComponent implements OnInit {
   buttonLabel: string = 'Cadastrar';
 
   form: FormGroup = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    ownerName: new FormControl('', [Validators.required]),
-    phone: new FormControl('', [Validators.required]),
+    name: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(50),
+    ]),
+    ownerName: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(50),
+    ]),
+    cnpj: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(14),
+      CustomValidators.isValidCnpj(),
+    ]),
+    phone: new FormControl('', [
+      Validators.required,
+      CustomValidators.isValidPhone(),
+    ]),
     cep: new FormControl('', [Validators.required]),
     uf: new FormControl({ value: '', disabled: true }, [
       Validators.required,
@@ -45,8 +62,11 @@ export class PageInfoComponent implements OnInit {
       Validators.minLength(3),
       Validators.maxLength(50),
     ]),
-    number: new FormControl('', []),
-    complement: new FormControl('', []),
+    number: new FormControl('', [Validators.maxLength(10)]),
+    complement: new FormControl('', [
+      Validators.minLength(3),
+      Validators.maxLength(50),
+    ]),
   });
 
   constructor(
@@ -63,10 +83,13 @@ export class PageInfoComponent implements OnInit {
   }
 
   formSubmit() {
+    console.log(this.form);
+
     let bodySubmit: ClinicDTO = {
       id: this.clinicId ?? undefined,
       name: this.form.get('name')?.value,
       ownerName: this.form.get('ownerName')?.value,
+      cnpj: this.form.get('cnpj')?.value,
       phone: this.form.get('phone')?.value,
       cep: this.form.get('cep')?.value,
       uf: this.form.get('uf')?.value,
@@ -76,8 +99,6 @@ export class PageInfoComponent implements OnInit {
       number: this.form.get('number')?.value,
       complement: this.form.get('complement')?.value,
     };
-
-    console.log(`Informações da clínica para edição: ${bodySubmit.name}`);
   }
 
   fetchAddressByCep() {
@@ -91,9 +112,14 @@ export class PageInfoComponent implements OnInit {
           this.form.controls['neighborhood'].disable();
           this.form.controls['street'].disable();
           this.form.controls['uf'].setValue(address?.state);
+          this.form.controls['uf'].setErrors(null);
+
           this.form.controls['city'].setValue(address?.city);
+          this.form.controls['city'].setErrors(null);
           this.form.controls['neighborhood'].setValue(address?.district);
+          this.form.controls['neighborhood'].setErrors(null);
           this.form.controls['street'].setValue(address?.address);
+          this.form.controls['street'].setErrors(null);
         } else {
           this.form.controls['uf'].enable();
           this.form.controls['city'].enable();
@@ -103,5 +129,44 @@ export class PageInfoComponent implements OnInit {
         }
       });
     }
+  }
+
+  isFormValid(): boolean {
+    return !this.form.valid;
+  }
+
+  requiredErrorMessage(fieldName: string): boolean {
+    return (
+      this.form.controls[fieldName]?.touched &&
+      this.form.controls[fieldName].hasError('required')
+    );
+  }
+
+  minLengthErrorMessage(fieldName: string): boolean {
+    return (
+      this.form.controls[fieldName]?.touched &&
+      this.form.controls[fieldName]?.hasError('minLength')
+    );
+  }
+
+  maxLengthErrorMessage(fieldName: string): boolean {
+    return (
+      this.form.controls[fieldName]?.touched &&
+      this.form.controls[fieldName]?.hasError('maxLength')
+    );
+  }
+
+  invalidCnpjErrorMessage(): boolean {
+    return (
+      this.form.controls['cnpj']?.touched &&
+      this.form.controls['cnpj']?.hasError('invalidCnpj')
+    );
+  }
+
+  invalidPhoneErrorMessage(): boolean {
+    return (
+      this.form.controls['phone']?.touched &&
+      this.form.controls['phone']?.hasError('invalidPhone')
+    );
   }
 }

@@ -9,8 +9,19 @@
         formControlName="name"
         class="form-control"
         id="name"
-        placeholder="Nome da clínica"
+        placeholder="Nome da Clínica"
       />
+      <div class="error-box">
+        <small *ngIf="requiredErrorMessage('name')" class="error-message"
+          >Insira o nome da Cclínica</small
+        >
+        <small *ngIf="minLengthErrorMessage('name')" class="error-message"
+          >Mínimo 3 caracteres</small
+        >
+        <small *ngIf="maxLengthErrorMessage('name')" class="error-message"
+          >Máximo de 50 caracteres</small
+        >
+      </div>
     </div>
 
     <div class="form-group col-md-12">
@@ -20,8 +31,39 @@
         formControlName="ownerName"
         class="form-control"
         id="ownerName"
-        placeholder="Nome do responsável"
+        placeholder="Nome do Responsável"
       />
+      <div class="error-box">
+        <small *ngIf="requiredErrorMessage('ownerName')" class="error-message"
+          >Insira um Nome</small
+        >
+        <small *ngIf="minLengthErrorMessage('ownerName')" class="error-message"
+          >No mínimo 3 caracteres</small
+        >
+        <small *ngIf="maxLengthErrorMessage('ownerName')" class="error-message"
+          >Máximo de 50 caracteres</small
+        >
+      </div>
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="inputCnpj">CNPJ *</label>
+      <input
+        type="text"
+        formControlName="cnpj"
+        mask="00.000.000/0000-00"
+        class="form-control"
+        id="inputCnpj"
+        placeholder="XX.XXX.XXX/XXXX-XX"
+      />
+      <div class="error-box">
+        <small *ngIf="requiredErrorMessage('cnpj')" class="error-message"
+          >Insira o CNPJ</small
+        >
+        <small *ngIf="invalidCnpjErrorMessage()" class="error-message"
+          >CNPJ Inválido</small
+        >
+      </div>
     </div>
 
     <div class="form-group col-md-12">
@@ -29,11 +71,21 @@
       <input
         type="text"
         formControlName="phone"
-        mask="(00) 0000-0000||(00) 0 0000-0000"
+        mask="(00) 0000-0000 ||(00) 0 0000-0000"
         class="form-control"
         id="inputPhone"
         placeholder="(XX) X XXXX-XXXX"
       />
+
+      <div class="error-box">
+        <small *ngIf="requiredErrorMessage('phone')" class="error-message"
+          >Insira um Telefone</small
+        >
+
+        <small *ngIf="invalidPhoneErrorMessage()" class="error-message"
+          >Telefone Inválido</small
+        >
+      </div>
     </div>
   </div>
 
@@ -108,6 +160,8 @@
         class="form-control"
         id="inputNumber"
         placeholder="Número do endereço"
+        formControlName="number"
+        maxLength="11"
       />
     </div>
 
@@ -118,11 +172,24 @@
         class="form-control"
         id="inputComplement"
         placeholder="Ex: Bloco C"
+        formControlName="complement"
+        maxLength="50"
       />
+      <div class="error-box">
+        <small *ngIf="minLengthErrorMessage('complement')" class="error-message"
+          >Mínimo de 3 caracteres</small
+        >
+
+        <small *ngIf="maxLengthErrorMessage('complement')" class="error-message"
+          >Máximo de 50 caracteres</small
+        >
+      </div>
     </div>
   </div>
 
   <div class="form-row mt-4">
-    <button type="submit" class="btn btn-primary">{{ buttonLabel }}</button>
+    <button type="submit" class="btn btn-primary" [disabled]="isFormValid()">
+      {{ buttonLabel }}
+    </button>
   </div>
 </form>
