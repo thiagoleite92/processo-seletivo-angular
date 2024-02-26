@@ -14,17 +14,17 @@ import { LayoutModule } from './components/layout/layout.module';
 import { NgxMaskModule } from 'ngx-mask';
 import { HttpClientModule } from '@angular/common/http';
 import { InfoClincPipe } from './pipes/info-clinic.pipe';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PageHomeComponent,
-
     InfoClincPipe,
-
     DefaultToastComponent,
     PageListComponent,
     PageInfoComponent,
+    DialogComponent,
   ],
   imports: [
     BrowserModule,

@@ -23,7 +23,6 @@ export class ClinicService {
   }
 
   createClinic(createClinicDTO: ClinicDTO): Observable<void> {
-    console.log(createClinicDTO);
     return this.http
       .post<void>(`${environment.API_URL}/clinic`, createClinicDTO, {
         headers: {

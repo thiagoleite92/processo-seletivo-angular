@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ClinicDTO } from 'src/app/dtos/clinic.dto';
 import { AddressService } from 'src/app/services/address.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -15,10 +15,9 @@ import { ClinicService } from 'src/app/services/clinic.service';
   styleUrls: ['./page-info.component.scss'],
 })
 export class PageInfoComponent implements OnInit {
+  showModal = false;
   CEP_LENGTH = 8;
-
   states = ufs;
-
   clinicId: number | null = null;
   buttonLabel: string = 'Cadastrar';
 
@@ -74,7 +73,8 @@ export class PageInfoComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     private addressService: AddressService,
     private toastService: ToastService,
-    private clinicService: ClinicService
+    private clinicService: ClinicService,
+    private route: Router
   ) {}
 
   ngOnInit(): void {
@@ -85,8 +85,6 @@ export class PageInfoComponent implements OnInit {
   }
 
   formSubmit() {
-    console.log('oi');
-
     let bodySubmit: ClinicDTO = {
       id: this.clinicId ?? undefined,
       name: this.form.get('name')?.value,
@@ -105,7 +103,11 @@ export class PageInfoComponent implements OnInit {
     };
 
     this.clinicService.createClinic(bodySubmit).subscribe({
-      next: (value: any) => {},
+      next: (value: any) => {
+        this.showModal = true;
+        this.form.reset();
+        this.toastService.showSuccess('Clínica cadastrada');
+      },
       error: (err: any) => {
         this.toastService.showError(err?.error?.message);
       },
@@ -179,5 +181,14 @@ export class PageInfoComponent implements OnInit {
       this.form.controls['phone']?.touched &&
       this.form.controls['phone']?.hasError('invalidPhone')
     );
+  }
+
+  closeModalAndBackToList() {
+    this.showModal = false;
+    this.route.navigateByUrl('/session/list');
+  }
+
+  closeModalAndStay() {
+    this.showModal = false;
   }
 }

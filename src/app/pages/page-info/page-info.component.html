@@ -13,7 +13,7 @@
       />
       <div class="error-box">
         <small *ngIf="requiredErrorMessage('name')" class="error-message"
-          >Insira o nome da Cclínica</small
+          >Insira o nome da Clínica</small
         >
         <small *ngIf="minLengthErrorMessage('name')" class="error-message"
           >Mínimo 3 caracteres</small
@@ -192,4 +192,27 @@
       {{ buttonLabel }}
     </button>
   </div>
+  <app-dialog *ngIf="showModal">
+    <div class="dialog-content">
+      <h5>Deseja cadastrar outra clínica?</h5>
+
+      <div class="btn-container">
+        <button
+          type="button"
+          (click)="closeModalAndBackToList()"
+          class="dialog-btn btn-cancel"
+        >
+          Não
+        </button>
+
+        <button
+          (click)="closeModalAndStay()"
+          class="dialog-btn btn-keep"
+          type="button"
+        >
+          Sim
+        </button>
+      </div>
+    </div></app-dialog
+  >
 </form>
