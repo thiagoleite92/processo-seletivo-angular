@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { Observable, retry } from 'rxjs';
 import { AuthService } from './auth.service';
+import { ClinicDTO } from '../dtos/clinic.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -11,9 +12,20 @@ export class ClinicService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   // TODO: Mapear DTOs para retorno do Backend
-  getAllClincs(): Observable<any[]> {
+  getAllClincs(): Observable<ClinicDTO[]> {
     return this.http
-      .get<any>(`${environment.API_URL}/clinic`, {
+      .get<ClinicDTO[]>(`${environment.API_URL}/clinic`, {
+        headers: {
+          Authorization: `Bearer ${this.authService.getToken()} `,
+        },
+      })
+      .pipe(retry(1));
+  }
+
+  createClinic(createClinicDTO: ClinicDTO): Observable<void> {
+    console.log(createClinicDTO);
+    return this.http
+      .post<void>(`${environment.API_URL}/clinic`, createClinicDTO, {
         headers: {
           Authorization: `Bearer ${this.authService.getToken()} `,
         },

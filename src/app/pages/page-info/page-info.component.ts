@@ -7,6 +7,7 @@ import { ToastService } from 'src/app/services/toast.service';
 
 import { ufs } from '../../const/states';
 import { CustomValidators } from 'src/app/utils/CustomValidators';
+import { ClinicService } from 'src/app/services/clinic.service';
 
 @Component({
   selector: 'app-page-info',
@@ -72,7 +73,8 @@ export class PageInfoComponent implements OnInit {
   constructor(
     private activateRoute: ActivatedRoute,
     private addressService: AddressService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private clinicService: ClinicService
   ) {}
 
   ngOnInit(): void {
@@ -83,7 +85,7 @@ export class PageInfoComponent implements OnInit {
   }
 
   formSubmit() {
-    console.log(this.form);
+    console.log('oi');
 
     let bodySubmit: ClinicDTO = {
       id: this.clinicId ?? undefined,
@@ -91,14 +93,23 @@ export class PageInfoComponent implements OnInit {
       ownerName: this.form.get('ownerName')?.value,
       cnpj: this.form.get('cnpj')?.value,
       phone: this.form.get('phone')?.value,
-      cep: this.form.get('cep')?.value,
-      uf: this.form.get('uf')?.value,
-      city: this.form.get('city')?.value,
-      neighborhood: this.form.get('neighborhood')?.value,
-      street: this.form.get('street')?.value,
-      number: this.form.get('number')?.value,
-      complement: this.form.get('complement')?.value,
+      address: {
+        cep: this.form.get('cep')?.value,
+        uf: this.form.get('uf')?.value,
+        city: this.form.get('city')?.value,
+        neighborhood: this.form.get('neighborhood')?.value,
+        street: this.form.get('street')?.value,
+        number: this.form.get('number')?.value,
+        complement: this.form.get('complement')?.value,
+      },
     };
+
+    this.clinicService.createClinic(bodySubmit).subscribe({
+      next: (value: any) => {},
+      error: (err: any) => {
+        this.toastService.showError(err?.error?.message);
+      },
+    });
   }
 
   fetchAddressByCep() {

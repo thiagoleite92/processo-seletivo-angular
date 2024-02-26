@@ -6,14 +6,14 @@ export class InfoClincPipe implements PipeTransform {
   constructor() {}
 
   transform(clinicInfo: ClinicDTO): string {
-    const formattedCep: string = `${clinicInfo?.cep?.slice(
+    const formattedCep: string = `${clinicInfo?.address?.cep?.slice(
       0,
       5
-    )}-${clinicInfo?.cep?.slice(5)}`;
+    )}-${clinicInfo?.address?.cep?.slice(5)}`;
 
     return `
             Cep: ${formattedCep}\n
-            Cidade: ${clinicInfo?.city}\n
-            Endereço: ${clinicInfo?.street}, Nº ${clinicInfo?.number}`;
+            Cidade: ${clinicInfo?.address?.city}\n
+            Endereço: ${clinicInfo?.address?.street}, Nº ${clinicInfo?.address?.number}`;
   }
 }

@@ -7,11 +7,13 @@ export interface ClinicDTO {
 
   ownerName: string;
 
-  cep: string;
-  uf: string;
-  city: string;
-  neighborhood: string;
-  street: string;
-  number?: string;
-  complement?: string;
+  address: {
+    cep: string;
+    uf: string;
+    city: string;
+    neighborhood: string;
+    street: string;
+    number?: string;
+    complement?: string;
+  };
 }
