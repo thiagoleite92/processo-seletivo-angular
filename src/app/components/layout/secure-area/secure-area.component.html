@@ -1,12 +1,17 @@
 <nav class="navbar navbar-dark bg-primary">
-    <div class="container-fluid">
-        <a class="navbar-brand title-styling" href="#">
-            <img src="/assets/logo-clin.svg" alt="" width="30" height="24"
-                class="d-inline-block align-text-top">
-            Clin Digital
-        </a>
-        <a class="nav-link btn text-white" (click)="logout()">Logout</a>
-    </div>
+  <div class="container-fluid">
+    <a class="navbar-brand title-styling" href="/session/list">
+      <img
+        src="/assets/logo-clin.svg"
+        alt=""
+        width="30"
+        height="24"
+        class="d-inline-block align-text-top"
+      />
+      Clin Digital
+    </a>
+    <a class="nav-link btn text-white" (click)="logout()">Logout</a>
+  </div>
 </nav>
 
 <router-outlet></router-outlet>

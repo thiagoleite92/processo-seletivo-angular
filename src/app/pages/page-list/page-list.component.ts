@@ -23,7 +23,7 @@ export class PageListComponent implements OnInit {
   totalPages = 1;
   nextPage = false;
   count = 0;
-  totalItems: number = 0;
+  totalItems = 0;
 
   form: FormGroup = new FormGroup({
     search: new FormControl('', [
@@ -54,37 +54,8 @@ export class PageListComponent implements OnInit {
     if (!this.authService.isLoggedIn()) {
       return;
     }
-    let filter: FilterDTO = {
-      search: this.form.get('search')?.value,
-      perPage: this.form.get('perPage')?.value,
-      page: this.form.get('page')?.value,
-    };
 
-    this.clinicService.getAllClincs(filter).subscribe({
-      next: ({
-        data,
-        count,
-        currentPage,
-        nextPage,
-        totalPages,
-        totalItems,
-      }) => {
-        this.clinics = data?.map((clinic) => ({
-          ...clinic,
-          address: { ...clinic?.address },
-        }));
-
-        this.currentPage = currentPage;
-        this.nextPage = nextPage;
-        this.count = count;
-        this.totalPages = totalPages;
-        this.totalItems = totalItems;
-      },
-
-      error: (err: any) => {
-        this.toastService.showError(`Erro ao resgatar listagem de clínicas`);
-      },
-    });
+    this.fetchClinicsList(this.mountFilter());
   }
 
   filterSubmit() {
@@ -120,7 +91,7 @@ export class PageListComponent implements OnInit {
   }
 
   clearFilter() {
-    let filter: FilterDTO = {
+    const resetFilter: FilterDTO = {
       search: '',
       perPage: 8,
       page: 1,
@@ -128,24 +99,8 @@ export class PageListComponent implements OnInit {
 
     this.form.controls['search'].setValue('');
 
-    this.clinicService.getAllClincs(filter).subscribe({
-      next: ({ data, count, currentPage, nextPage, totalPages }) => {
-        this.clinics = data?.map((clinic) => ({
-          ...clinic,
-          address: { ...clinic?.address },
-        }));
-
-        this.currentPage = currentPage;
-        this.form.controls['page'].setValue(currentPage);
-        this.nextPage = nextPage;
-        this.count = count;
-        this.totalPages = totalPages;
-        this.isFiltered = false;
-      },
-      error: (err: any) => {
-        this.toastService.showError(`Erro ao resgatar listagem de clínicas`);
-      },
-    });
+    this.fetchClinicsList(resetFilter);
+    this.isFiltered = false;
   }
 
   redirectNewClinc() {
@@ -166,20 +121,11 @@ export class PageListComponent implements OnInit {
     this.clinicToDeletion = '';
   }
 
-  updateClinicList() {
-    const clinicDeletedIndex = this.clinics.findIndex(
-      (clinic) => clinic?.id === Number(this.clinicToDeletion)
-    );
-
-    if (clinicDeletedIndex >= 0) {
-      this.clinics.splice(clinicDeletedIndex, 1);
-    }
-  }
-
   confirmClinicDeletion() {
     this.clinicService.deleteClinicById(this.clinicToDeletion).subscribe({
       next: () => {
-        this.updateClinicList();
+        this.fetchClinicsList(this.mountFilter());
+
         this.showModal = false;
         this.toastService.showSuccess('Clínica removida');
       },
@@ -192,11 +138,7 @@ export class PageListComponent implements OnInit {
     });
   }
 
-  enterSubmit(event: any) {
-    console.log(event);
-  }
-
-  isFormValid(): boolean {
+  isFilterValid(): boolean {
     return this.form.get('search')?.value?.length >= 3;
   }
 
@@ -209,26 +151,9 @@ export class PageListComponent implements OnInit {
 
     filter.page! += 1;
 
-    this.clinicService.getAllClincs(filter).subscribe({
-      next: ({ data, count, currentPage, nextPage, totalPages }) => {
-        console.log(data, count, currentPage, nextPage, totalPages);
-        this.clinics = data?.map((clinic) => ({
-          ...clinic,
-          address: { ...clinic?.address },
-        }));
+    this.fetchClinicsList(filter);
 
-        this.isFiltered = false;
-
-        this.currentPage = currentPage;
-        this.form.controls['page'].setValue(currentPage);
-        this.nextPage = nextPage;
-        this.count = count;
-        this.totalPages = totalPages;
-      },
-      error: (err: any) => {
-        this.toastService.showError(`Erro ao resgatar listagem de clínicas`);
-      },
-    });
+    this.isFiltered = this.isFilterValid();
   }
 
   fetchPreviousPage() {
@@ -240,20 +165,34 @@ export class PageListComponent implements OnInit {
 
     filter.page! -= 1;
 
+    this.fetchClinicsList(filter);
+
+    this.isFiltered = this.isFilterValid();
+  }
+
+  fetchClinicsList(filter: FilterDTO) {
     this.clinicService.getAllClincs(filter).subscribe({
-      next: ({ data, count, currentPage, nextPage, totalPages }) => {
+      next: ({
+        data,
+        count,
+        currentPage,
+        nextPage,
+        totalPages,
+        totalItems,
+      }) => {
         this.clinics = data?.map((clinic) => ({
           ...clinic,
           address: { ...clinic?.address },
         }));
-        this.isFiltered = false;
 
         this.currentPage = currentPage;
         this.form.controls['page'].setValue(currentPage);
         this.nextPage = nextPage;
         this.count = count;
         this.totalPages = totalPages;
+        this.totalItems = totalItems;
       },
+
       error: (err: any) => {
         this.toastService.showError(`Erro ao resgatar listagem de clínicas`);
       },

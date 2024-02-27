@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RoutesEnum } from 'src/app/enums/routes.enum';
@@ -10,12 +10,18 @@ import { ToastService } from 'src/app/services/toast.service';
   templateUrl: './page-home.component.html',
   styleUrls: ['./page-home.component.scss'],
 })
-export class PageHomeComponent {
+export class PageHomeComponent implements OnInit {
   constructor(
     private route: Router,
     private authService: AuthService,
     private toastService: ToastService
   ) {}
+
+  ngOnInit(): void {
+    if (this.authService.isLoggedIn()) {
+      this.route.navigateByUrl('/session/list');
+    }
+  }
 
   form: FormGroup = new FormGroup({
     identifier: new FormControl('', [

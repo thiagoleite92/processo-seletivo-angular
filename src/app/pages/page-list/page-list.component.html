@@ -4,12 +4,7 @@
       Criar nova clínica
     </button>
 
-    <form
-      action=""
-      [formGroup]="form"
-      (ngSubmit)="filterSubmit()"
-      (keydown)="enterSubmit($event)"
-    >
+    <form action="" [formGroup]="form" (ngSubmit)="filterSubmit()">
       <div>
         <input
           type="text"
@@ -18,7 +13,7 @@
           id="search"
           placeholder="Clínica, Responsável ou CNPJ"
         />
-        <button class="btn btn-primary" [disabled]="!isFormValid()">
+        <button class="btn btn-primary" [disabled]="!isFilterValid()">
           Buscar
         </button>
         <button
