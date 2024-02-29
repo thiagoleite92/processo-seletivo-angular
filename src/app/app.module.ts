@@ -15,6 +15,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { HttpClientModule } from '@angular/common/http';
 import { InfoClincPipe } from './pipes/info-clinic.pipe';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { InputComponent } from './components/input/input.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
     PageListComponent,
     PageInfoComponent,
     DialogComponent,
+    InputComponent,
   ],
   imports: [
     BrowserModule,

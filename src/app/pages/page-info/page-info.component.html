@@ -2,188 +2,128 @@
   <div class="row">
     <h5 class="divider pb-2">Informações gerais</h5>
 
-    <div class="form-group col-md-12">
-      <label for="name">Nome da clínica *</label>
-      <input
-        type="text"
-        formControlName="name"
-        class="form-control"
-        id="name"
-        placeholder="Nome da Clínica"
-      />
-      <div class="error-box">
-        <small *ngIf="requiredErrorMessage('name')" class="error-message"
-          >Insira o nome da Clínica</small
-        >
-        <small *ngIf="minLengthErrorMessage('name')" class="error-message"
-          >Mínimo 3 caracteres</small
-        >
-        <small *ngIf="maxLengthErrorMessage('name')" class="error-message"
-          >Máximo de 50 caracteres</small
-        >
-      </div>
-    </div>
+    <app-input
+      label="Nome da Clínica"
+      placeholder="Ex: Clínica Amaral de Abreu"
+      [fieldReference]="getReference('name')"
+      [required]="true"
+      name="name"
+      [isText]="true"
+    ></app-input>
 
-    <div class="form-group col-md-12">
-      <label for="ownerName">Nome do responsável *</label>
-      <input
-        type="text"
-        formControlName="ownerName"
-        class="form-control"
-        id="ownerName"
-        placeholder="Nome do Responsável"
-      />
-      <div class="error-box">
-        <small *ngIf="requiredErrorMessage('ownerName')" class="error-message"
-          >Insira um Nome</small
-        >
-        <small *ngIf="minLengthErrorMessage('ownerName')" class="error-message"
-          >No mínimo 3 caracteres</small
-        >
-        <small *ngIf="maxLengthErrorMessage('ownerName')" class="error-message"
-          >Máximo de 50 caracteres</small
-        >
-      </div>
-    </div>
+    <app-input
+      label="Nome do Responsável"
+      placeholder="Ex: Amaral de Abreu"
+      [fieldReference]="getReference('ownerName')"
+      [required]="true"
+      name="ownerName"
+      [isText]="true"
+    ></app-input>
 
-    <div class="form-group col-md-12">
-      <label for="inputCnpj">CNPJ *</label>
-      <input
-        type="text"
-        formControlName="cnpj"
-        mask="00.000.000/0000-00"
-        class="form-control"
-        id="inputCnpj"
-        placeholder="XX.XXX.XXX/XXXX-XX"
-      />
-      <div class="error-box">
-        <small *ngIf="requiredErrorMessage('cnpj')" class="error-message"
-          >Insira o CNPJ</small
-        >
-        <small *ngIf="invalidCnpjErrorMessage()" class="error-message"
-          >CNPJ Inválido</small
-        >
-      </div>
-    </div>
+    <app-input
+      label="CNPJ"
+      placeholder="XX.XXX.XXX/XXXX-XX"
+      [fieldReference]="getReference('cnpj')"
+      [required]="true"
+      mask="00.000.000/0000-00"
+      name="cnpj"
+      [isText]="true"
+    ></app-input>
 
-    <div class="form-group col-md-12">
-      <label for="inputPhone">Telefone *</label>
-      <input
-        type="text"
-        formControlName="phone"
-        mask="(00) 0000-0000 ||(00) 0 0000-0000"
-        class="form-control"
-        id="inputPhone"
-        placeholder="(XX) X XXXX-XXXX"
-      />
-
-      <div class="error-box">
-        <small *ngIf="requiredErrorMessage('phone')" class="error-message"
-          >Insira um Telefone</small
-        >
-
-        <small *ngIf="invalidPhoneErrorMessage()" class="error-message"
-          >Telefone Inválido</small
-        >
-      </div>
-    </div>
+    <app-input
+      label="Telefone"
+      placeholder="(XX) X XXXX-XXXX"
+      [fieldReference]="getReference('phone')"
+      [required]="true"
+      mask="(XX) X XXXX-XXXX"
+      name="phone"
+      [isText]="true"
+    ></app-input>
   </div>
 
   <div class="row mt-4">
     <h5 class="divider pb-2">Endereço</h5>
 
     <div class="form-group col-md-4">
-      <label for="inputCep">CEP</label>
-      <input
-        type="text"
-        mask="00000-000"
-        class="form-control"
-        formControlName="cep"
-        id="inputCep"
+      <app-input
+        label="CEP"
         placeholder="XXXXX-XXX"
-        (blur)="fetchAddressByCep()"
-      />
+        [fieldReference]="getReference('cep')"
+        [required]="true"
+        [isText]="true"
+        mask="00000-000"
+        (fetchCepAddress)="fetchAddressByCep()"
+        name="cep"
+      ></app-input>
     </div>
 
     <div class="form-group col-md-2">
-      <label for="inputUF">UF</label>
-      <select
-        class="form-control"
-        id="inputUF"
-        placeholder="UF"
-        formControlName="uf"
-      >
-        <option value="" disabled selected>UF</option>
-        <option *ngFor="let state of states" [ngValue]="state">
-          {{ state }}
-        </option>
-      </select>
+      <app-input
+        label="UF"
+        [fieldReference]="getReference('uf')"
+        [required]="true"
+        name="uf"
+        [isSelect]="true"
+        [options]="states"
+        [isDisabled]="form.controls['uf'].disabled"
+        [required]="true"
+      ></app-input>
     </div>
 
     <div class="form-group col-md-6">
-      <label for="inputCity">Cidade</label>
-      <input
-        type="text"
-        class="form-control"
-        id="inputCity"
+      <app-input
+        label="Cidade"
         placeholder="Cidade"
-        formControlName="city"
-      />
+        [fieldReference]="getReference('city')"
+        [required]="true"
+        [isText]="true"
+        [isDisabled]="form.controls['city'].disabled"
+        name="city"
+      ></app-input>
     </div>
 
     <div class="form-group col-md-12">
-      <label for="inputNeighborhood">Bairro</label>
-      <input
-        type="text"
-        class="form-control"
-        id="inputNeighborhood"
-        placeholder="Bairro da cidade"
-        formControlName="neighborhood"
-      />
+      <app-input
+        label="Bairro"
+        placeholder="Cidade"
+        [fieldReference]="getReference('neighborhood')"
+        [required]="true"
+        [isText]="true"
+        [isDisabled]="form.controls['neighborhood'].disabled"
+        name="neighborhood"
+      ></app-input>
     </div>
 
     <div class="form-group col-md-12">
-      <label for="inputStreet">Logradouro</label>
-      <input
-        type="text"
-        class="form-control"
-        id="inputStreet"
-        placeholder="Rua, Av. da cidade"
-        formControlName="street"
-      />
+      <app-input
+        label="Logradouro"
+        placeholder="Rua Machado de Assis"
+        [fieldReference]="getReference('street')"
+        [required]="true"
+        [isText]="true"
+        [isDisabled]="form.controls['street'].disabled"
+        name="street"
+      ></app-input>
     </div>
 
     <div class="form-group col-md-4">
-      <label for="inputNumber">Número</label>
-      <input
-        type="text"
-        class="form-control"
-        id="inputNumber"
-        placeholder="Número do endereço"
-        formControlName="number"
-        maxLength="11"
-      />
+      <app-input
+        label="Número"
+        placeholder="Ex: 123"
+        [fieldReference]="getReference('number')"
+        [isText]="true"
+        name="number"
+      ></app-input>
     </div>
 
     <div class="form-group col-md-8">
-      <label for="inputComplement">Complemento</label>
-      <input
-        type="text"
-        class="form-control"
-        id="inputComplement"
-        placeholder="Ex: Bloco C"
-        formControlName="complement"
-        maxLength="50"
-      />
-      <div class="error-box">
-        <small *ngIf="minLengthErrorMessage('complement')" class="error-message"
-          >Mínimo de 3 caracteres</small
-        >
-
-        <small *ngIf="maxLengthErrorMessage('complement')" class="error-message"
-          >Máximo de 50 caracteres</small
-        >
-      </div>
+      <app-input
+        label="Complemento"
+        placeholder="Perto da Igreja Matriz"
+        [fieldReference]="getReference('complement')"
+        [isText]="true"
+        name="complement"
+      ></app-input>
     </div>
   </div>
 
@@ -197,6 +137,7 @@
       </button>
     </div>
   </div>
+
   <app-dialog *ngIf="showModal">
     <div class="dialog-content">
       <h5>{{ modalTitle }}</h5>

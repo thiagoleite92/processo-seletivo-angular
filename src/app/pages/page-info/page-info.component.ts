@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClinicDTO } from 'src/app/dtos/clinic.dto';
 import { AddressService } from 'src/app/services/address.service';
@@ -158,7 +163,7 @@ export class PageInfoComponent implements OnInit {
     }
   }
 
-  fetchAddressByCep(cep?: string) {
+  fetchAddressByCep() {
     const cepNumber = this.form.get('cep')?.value;
 
     if (cepNumber?.length === this.CEP_LENGTH) {
@@ -178,10 +183,10 @@ export class PageInfoComponent implements OnInit {
           this.form.controls['street'].setValue(address?.address);
           this.form.controls['street'].setErrors(null);
         } else {
-          this.form.controls['uf'].enable();
-          this.form.controls['city'].enable();
-          this.form.controls['neighborhood'].enable();
-          this.form.controls['street'].enable();
+          this.form.controls['uf']?.enable();
+          this.form.controls['city']?.enable();
+          this.form.controls['neighborhood']?.enable();
+          this.form.controls['street']?.enable();
           this.toastService.showError(address?.message!);
         }
       });
@@ -239,5 +244,9 @@ export class PageInfoComponent implements OnInit {
   backToList() {
     this.form.reset();
     this.route.navigateByUrl('/session/list');
+  }
+
+  getReference(field: string): AbstractControl {
+    return this.form.controls[field];
   }
 }

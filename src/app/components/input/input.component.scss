@@ -1,0 +1,11 @@
+.error-box {
+  margin: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2;
+  font-size: 14px;
+
+  small {
+    color: rgb(215, 67, 67);
+  }
+}
